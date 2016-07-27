@@ -1,0 +1,58 @@
+version: '2'
+
+services: 
+
+  mariadb:
+    image: daocloud.io/billqiang/docker-laravel-mariadb
+    container_name: mariadb
+    network_mode: host
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/mariadb:/data/mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  redis:
+    image: daocloud.io/billqiang/docker-laravel-redis
+    container_name: redis
+    network_mode: host
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - /data/redis:/var/lib/redis
+
+  mongodb:
+    image: daocloud.io/billqiang/docker-laravel-mongodb
+    container_name: mongodb
+    network_mode: host
+    restart: always
+    ports:
+      - "27017:27017"
+      #- "28017:28017"
+    volumes:
+      - /data/mongodb:/data/mongodb
+
+  php:
+    image: daocloud.io/billqiang/docker-laravel-phpfpm
+    container_name: php
+    network_mode: host
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /data:/data
+
+  nginx: 
+    image: daocloud.io/billqiang/docker-laravel-nginx
+    container_name: nginx
+    network_mode: host
+    restart: always
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - /data:/data
+      - ./configs/nginx/sites-enabled:/etc/nginx/conf.d/
