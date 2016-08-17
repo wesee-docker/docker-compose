@@ -66,15 +66,15 @@ services:
       - /data/log:/data/log
 
   # This configures the MongoDB replicaset
-  #mongosetup:
-    #image: daocloud.io/billqiang/docker-laravel-mongodb
-    #links:
-      #- mongo1:mongo1
-      #- mongo2:mongo2
-      #- mongo3:mongo3
-    #volumes:
-      #- ./scripts:/scripts
-    #entrypoint: [ "/scripts/setup.sh" ]
+  mongosetup:
+    image: daocloud.io/billqiang/docker-laravel-mongodb
+    links:
+      - mongo1:mongo1
+      - mongo2:mongo2
+      - mongo3:mongo3
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: [ "/scripts/setup.sh" ]
 
   php:
     image: daocloud.io/billqiang/docker-laravel-phpfpm
