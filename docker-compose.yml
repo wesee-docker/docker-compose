@@ -1,0 +1,109 @@
+version: '2'
+
+services: 
+
+  mariadb:
+    image: daocloud.io/billqiang/docker-laravel-mariadb
+    container_name: mariadb
+    network_mode: host
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/compose/mariadb:/data/mariadb
+      - /data/log:/data/log
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+
+  redis:
+    image: daocloud.io/billqiang/docker-laravel-redis
+    container_name: redis
+    network_mode: host
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - /data/compose/redis:/data/redis
+      - /data/log:/data/log
+
+  mongo3:
+    hostname: mongo3
+    image: daocloud.io/billqiang/docker-laravel-mongodb
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--journal", "--smallfiles", "--rest" ]
+    ports:
+      - "27018:27017"
+      - "28018:28017"
+    restart: always
+    volumes:
+      - /data/compose/mongo1:/data/mongodb
+      - /data/log:/data/log
+
+  mongo2:
+    hostname: mongo2
+    image: daocloud.io/billqiang/docker-laravel-mongodb
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--journal", "--smallfiles", "--rest" ]
+    ports:
+      - "27019:27017"
+      - "28019:28017"
+    restart: always
+    volumes:
+      - /data/compose/mongo2:/data/mongodb
+      - /data/log:/data/log
+
+  mongo1:
+    hostname: mongo1
+    image: daocloud.io/billqiang/docker-laravel-mongodb
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--journal", "--smallfiles", "--rest" ]
+    ports:
+      - "27017:27017"
+      - "28017:28017"
+    links:
+      - mongo2:mongo2
+      - mongo3:mongo3
+    restart: always
+    volumes:
+      - /data/compose/mongo3:/data/mongodb
+      - /data/log:/data/log
+
+  # This configures the MongoDB replicaset
+  #mongosetup:
+    #image: daocloud.io/billqiang/docker-laravel-mongodb
+    #links:
+      #- mongo1:mongo1
+      #- mongo2:mongo2
+      #- mongo3:mongo3
+    #volumes:
+      #- ./scripts:/scripts
+    #entrypoint: [ "/scripts/setup.sh" ]
+
+  php:
+    image: daocloud.io/billqiang/docker-laravel-phpfpm
+    container_name: php
+    network_mode: host
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /data/log:/data/log
+
+  go:
+    image: daocloud.io/billqiang/docker-golang
+    container_name: go
+    network_mode: host
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - /data/code/wesee-api/src/tapi:/go/src/tapi
+
+  nginx: 
+    image: daocloud.io/billqiang/docker-laravel-nginx
+    container_name: nginx
+    network_mode: host
+    restart: always
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - /data:/data
+      - /data/compose/nginx/conf.d:/etc/nginx/conf.d/
