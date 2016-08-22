@@ -10,7 +10,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /data/compose/mariadb:/data/mariadb
+      #- /data/compose/mariadb:/data/mariadb
+      - /data/compose/mariadb:/var/lib/mysql
       - /data/log:/data/log
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
@@ -27,19 +28,9 @@ services:
       - /data/log:/data/log
 
   mongo3:
+    #network_mode: host
     hostname: mongo3
-    image: daocloud.io/billqiang/docker-laravel-mongodb
-    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--journal", "--smallfiles", "--rest" ]
-    ports:
-      - "27018:27017"
-      - "28018:28017"
-    restart: always
-    volumes:
-      - /data/compose/mongo1:/data/mongodb
-      - /data/log:/data/log
-
-  mongo2:
-    hostname: mongo2
+    #container_name: mongo3
     image: daocloud.io/billqiang/docker-laravel-mongodb
     entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--journal", "--smallfiles", "--rest" ]
     ports:
@@ -47,34 +38,51 @@ services:
       - "28019:28017"
     restart: always
     volumes:
-      - /data/compose/mongo2:/data/mongodb
+      - /data/compose/mongo3:/data/db
+      - /data/log:/data/log
+
+  mongo2:
+    #network_mode: host
+    hostname: mongo2
+    #container_name: mongo2
+    image: daocloud.io/billqiang/docker-laravel-mongodb
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--journal", "--smallfiles", "--rest" ]
+    ports:
+      - "27018:27017"
+      - "28018:28017"
+    restart: always
+    volumes:
+      - /data/compose/mongo2:/data/db
       - /data/log:/data/log
 
   mongo1:
+    #network_mode: host
     hostname: mongo1
+    #container_name: mongo1
     image: daocloud.io/billqiang/docker-laravel-mongodb
     entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--journal", "--smallfiles", "--rest" ]
     ports:
       - "27017:27017"
       - "28017:28017"
+    restart: always
     links:
       - mongo2:mongo2
       - mongo3:mongo3
-    restart: always
     volumes:
-      - /data/compose/mongo3:/data/mongodb
+      - /data/compose/mongo1:/data/db
       - /data/log:/data/log
 
   # This configures the MongoDB replicaset
   mongosetup:
+    #network_mode: host
     image: daocloud.io/billqiang/docker-laravel-mongodb
     links:
       - mongo1:mongo1
       - mongo2:mongo2
       - mongo3:mongo3
     volumes:
-      - ./scripts:/scripts
-    entrypoint: [ "/scripts/setup.sh" ]
+      - /data/compose/scripts:/scripts
+    entrypoint: [ "/scripts/mongo.sh" ]
 
   php:
     image: daocloud.io/billqiang/docker-laravel-phpfpm
@@ -84,7 +92,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - /data/log:/data/log
+      - /data/log/php:/data/log/php
 
   go:
     image: daocloud.io/billqiang/docker-golang
@@ -105,5 +113,5 @@ services:
       - "80"
       - "443"
     volumes:
-      - /data:/data
-      - /data/compose/nginx/conf.d:/etc/nginx/conf.d/
+      - /data/nginx:/data/nginx
+      - /data/compose/configs/nginx/conf.d:/etc/nginx/conf.d/
