@@ -95,6 +95,7 @@ services:
       - /data/log/php:/data/log/php
 
   go:
+    #image: daocloud.io/billqiang/docker-golang-scratch
     image: daocloud.io/billqiang/docker-golang
     container_name: go
     network_mode: host
@@ -102,7 +103,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /data/code/wesee-api/src/tapi:/go/src/tapi
+      - /data/code/wesee-api:/go/src/tapi
 
   nginx: 
     image: daocloud.io/billqiang/docker-laravel-nginx

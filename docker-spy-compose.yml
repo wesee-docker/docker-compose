@@ -1,0 +1,27 @@
+elasticsearch:
+  image: daocloud.io/billqiang/docker-elasticsearch
+  command: elasticsearch -Des.network.host=0.0.0.0
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  volumes:
+    - /data/compose/es:/usr/share/elasticsearch/data
+
+logstash:
+  image: daocloud.io/billqiang/docker-logstash
+  command: logstash -f /etc/logstash/conf.d/logstash.conf
+  volumes:
+    - /data/compose/configs/logstash:/etc/logstash/conf.d
+  ports:
+    - "5000:5000"
+  links:
+    - elasticsearch
+
+kibana:
+  image: daocloud.io/billqiang/docker-kibana
+  volumes:
+    - /data/compose/configs/kibana/:/opt/kibana/config/
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch
