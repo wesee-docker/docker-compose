@@ -6,7 +6,7 @@ elk:
 spy:
 	docker-compoes -f docker-spy-compose.yml up -d 
 install:
-	./scripts/docker-centos.sh;
+	./scripts/install-docker-centos.sh;
 	mkdir -p /data/code; 
 	ssh -T git@git.oschina.net;
 	git clone git@git.oschina.net:tupai/wesee-music.git /data/code/music
