@@ -6,9 +6,8 @@ elk:
 spy:
 	docker-compoes -f docker-spy-compose.yml up -d 
 install:
-	chmod +x ./scripts/install-docker-centos.sh;
-	chmod +x ./scripts/mongo.sh;
-	./scripts/install-docker-centos.sh;
+	chmod +x /data/compose/scripts/*.sh;
+	sh /data/compose/scripts/install-docker-centos.sh;
 	mkdir -p /data/code; 
 	ssh -T git@git.oschina.net;
 	git clone git@git.oschina.net:tupai/wesee-music.git /data/code/music
@@ -22,6 +21,9 @@ install:
 	mkdir -p /data/log;
 	git clone git@git.oschina.net:tupai/wesee-log.git /data/log
 	chmod 777 /data/log -R;
+import-db:
+	sh /data/compose/scripts/host-ip.sh;
+	docker run --rm -it -v /data/code/backup/:/data/backup daocloud.io/billqiang/docker-laravel-mariadb /bin/bash -c "mysql -uroot -proot -h`cat /data/host-ip` < /data/compose/backup/*.sql"
 export-db:
 	cd /data/compose/backup; mysqldump webuy --user=root --password=root --host=192.168.0.11 > webuy-db.sql;
 	cd /data/compose/backup; mysqldump wemake --user=root --password=root --host=192.168.0.11 > wemake-db.sql;
