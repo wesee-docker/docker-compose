@@ -18,4 +18,11 @@ install:
 	git clone git@git.oschina.net:tupai/wesee-spy.git /data/code/spy
 	mkdir -p /data/log;
 	git clone git@git.oschina.net:tupai/wesee-log.git /data/log
-	chmod 777 log -R;
+	chmod 777 /data/log -R;
+export-db:
+	cd /data/backup; mysqldump webuy --user=root --password=root --host=192.168.0.11 > webuy-db.sql
+	cd /data/backup; mysqldump wemake --user=root --password=root --host=192.168.0.11 > wemake-db.sql
+	cd /data/backup; mysqldump user --user=root --password=root --host=192.168.0.11 > user-db.sql
+	cd /data/backup; mysqldump order --user=root --password=root --host=192.168.0.11 > order-db.sql
+	cd /data/backup; mysqldump upload --user=root --password=root --host=192.168.0.11 > upload-db.sql
+	cd /data/backup; mysqldump moman --user=root --password=root --host=192.168.0.11 > moman-db.sql
