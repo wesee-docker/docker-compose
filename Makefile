@@ -6,6 +6,8 @@ elk:
 spy:
 	docker-compoes -f docker-spy-compose.yml up -d 
 install:
+	chmod +x ./scripts/install-docker-centos.sh;
+	chmod +x ./scripts/mongo.sh;
 	./scripts/install-docker-centos.sh;
 	mkdir -p /data/code; 
 	ssh -T git@git.oschina.net;
