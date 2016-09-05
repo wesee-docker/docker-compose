@@ -22,7 +22,7 @@ install:
 	git clone git@git.oschina.net:tupai/wesee-log.git /data/log
 	chmod 777 /data/log -R;
 import-db:
-	sh /data/compose/scripts/host-ip.sh;
+	cd /data/compose/scripts/; sh /data/compose/scripts/host-ip.sh;
 	docker run --rm -it -v /data/compose/backup/:/data/backup daocloud.io/billqiang/docker-laravel-mariadb /bin/bash -c "mysql -uroot -proot -h`cat /data/host-ip` < /data/backup/*.sql"
 export-db:
 	cd /data/compose/backup; mysqldump webuy --user=root --password=root --host=192.168.0.11 > webuy-db.sql;
