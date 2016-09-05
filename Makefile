@@ -21,9 +21,10 @@ install:
 	mkdir -p /data/log;
 	git clone git@git.oschina.net:tupai/wesee-log.git /data/log
 	chmod 777 /data/log -R;
+	docker run --rm -it -v /data:/data daocloud.io/billqiang/docker-laravel-php /bin/bash -c "/data/compose/scripts/install-laravel-backend.sh"
 import-db:
 	cd /data/compose/scripts/; sh /data/compose/scripts/host-ip.sh;
-	docker run --rm -it -v /data/compose/:/data/compose daocloud.io/billqiang/docker-laravel-mariadb /bin/bash -c "/data/compose/scripts/install-mariadb.sh"
+	docker run --rm -it -v /data/compose:/data/compose daocloud.io/billqiang/docker-laravel-mariadb /bin/bash -c "/data/compose/scripts/install-mariadb.sh"
 export-db:
 	cd /data/compose/backup; mysqldump webuy --user=root --password=root --host=192.168.0.11 > webuy-db.sql;
 	cd /data/compose/backup; mysqldump wemake --user=root --password=root --host=192.168.0.11 > wemake-db.sql;
