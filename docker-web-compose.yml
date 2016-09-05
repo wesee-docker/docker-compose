@@ -92,7 +92,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - /data/log/php:/data/log/php
+      - /data/log:/data/log
 
   go:
     #image: daocloud.io/billqiang/docker-golang-scratch
