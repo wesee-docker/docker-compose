@@ -4,4 +4,4 @@ mongo2/*
 mongo3/*
 mariadb/*
 redis/*
-script/host-ip
+scripts/host-ip
