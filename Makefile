@@ -8,14 +8,14 @@ spy:
 install:
 	ssh -T git@git.oschina.net;
 	mkdir -p /data/code; 
-	git clone https://git.oschina.net/tupai/wesee-music.git /data/code/music
-	git clone https://git.oschina.net/tupai/wesee-admin.git /data/code/wesee
-	git clone https://git.oschina.net/tupai/wesee-moman.git /data/code/moman
-	git clone https://git.oschina.net/tupai/wesee-api.git /data/code/wesee-api
-	git clone https://git.oschina.net/tupai/wemake.git /data/code/wemake
-	git clone https://git.oschina.net/tupai/webuy.git /data/code/webuy
-	git clone https://git.oschina.net/tupai/wesee-html.git /data/code/wesee-html
-	git clone https://git.oschina.net/tupai/wesee-spy.git /data/code/spy
+	git clone git@git.oschina.net/tupai/wesee-music.git /data/code/music
+	git clone git@git.oschina.net/tupai/wesee-admin.git /data/code/wesee
+	git clone git@git.oschina.net/tupai/wesee-moman.git /data/code/moman
+	git clone git@git.oschina.net/tupai/wesee-api.git /data/code/wesee-api
+	git clone git@git.oschina.net/tupai/wemake.git /data/code/wemake
+	git clone git@git.oschina.net/tupai/webuy.git /data/code/webuy
+	git clone git@git.oschina.net/tupai/wesee-html.git /data/code/wesee-html
+	git clone git@git.oschina.net/tupai/wesee-spy.git /data/code/spy
 	mkdir -p /data/log;
-	git clone https://git.oschina.net/tupai/wesee-log.git /data/log
+	git clone git@git.oschina.net/tupai/wesee-log.git /data/log
 	chmod 777 log -R;
