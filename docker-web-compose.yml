@@ -97,34 +97,43 @@ services:
   go1:
     #image: daocloud.io/billqiang/docker-golang-scratch
     image: daocloud.io/billqiang/docker-golang
-    container_name: go
+    container_name: go1
     network_mode: host
     restart: always
+    environment:
+        - APP_PORT=8080
     ports:
       - "8080:8080"
     volumes:
+      - /data/code:/data/code
       - /data/code/wesee-api:/go/src/tapi
 
   go2:
     #image: daocloud.io/billqiang/docker-golang-scratch
     image: daocloud.io/billqiang/docker-golang
-    container_name: go
+    container_name: go2
     network_mode: host
     restart: always
+    environment:
+        - APP_PORT=8081
     ports:
       - "8081:8080"
     volumes:
+      - /data/code:/data/code
       - /data/code/wesee-api:/go/src/tapi
 
   go3:
     #image: daocloud.io/billqiang/docker-golang-scratch
     image: daocloud.io/billqiang/docker-golang
-    container_name: go
+    container_name: go3
     network_mode: host
     restart: always
+    environment:
+        - APP_PORT=8082
     ports:
       - "8082:8080"
     volumes:
+      - /data/code:/data/code
       - /data/code/wesee-api:/go/src/tapi
 
   nginx: 
