@@ -10,7 +10,6 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      #- /data/compose/mariadb:/data/mariadb
       - /data/compose/mariadb:/var/lib/mysql
       - /data/log:/data/log
     environment:
@@ -92,6 +91,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
+      - /data/code:/data/code
       - /data/log:/data/log
 
   go:
@@ -114,5 +114,6 @@ services:
       - "80"
       - "443"
     volumes:
-      - /data/nginx:/data/nginx
+      - /data/code:/data/code
+      - /data/log:/data/log
       - /data/compose/configs/nginx/conf.d:/etc/nginx/conf.d/
