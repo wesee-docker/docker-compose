@@ -10,9 +10,21 @@ cd /data/code/wemake/vendor;composer install;
 cd /data/code/moman/vendor;composer install;
 cd /data/code/wesee/vendor;composer install;
 
-mkdir -p /data/log/storage/wesee; 
-chmod 777 /data/log/storage/wesee -R;
-mkdir -p /data/log/storage/wemake; 
-chmod 777 /data/log/storage/wemake -R;
-mkdir -p /data/log/storage/moman; 
-chmod 777 /data/log/storage/moman -R;
+mkdir -p /data/log/wesee;
+mkdir -p /data/log/wesee/framework/cache;
+mkdir -p /data/log/wesee/framework/sessions;
+mkdir -p /data/log/wesee/framework/views;
+chmod 777 /data/log/wesee -R;
+mkdir -p /data/log/wemake;
+mkdir -p /data/log/wemake/framework/cache;
+mkdir -p /data/log/wemake/framework/sessions;
+mkdir -p /data/log/wemake/framework/views;
+chmod 777 /data/log/wemake -R;
+mkdir -p /data/log/moman;
+mkdir -p /data/log/moman/framework/cache;
+mkdir -p /data/log/moman/framework/sessions;
+mkdir -p /data/log/moman/framework/views;
+chmod 777 /data/log/moman -R;
+
+## webuy config
+chmod 777 /data/code/webuy/data/config.php

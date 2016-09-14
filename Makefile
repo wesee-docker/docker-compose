@@ -1,13 +1,15 @@
-web:
+build-api:
 	docker run --rm -v /data/code/wesee-api:/go/src/tapi daocloud.io/billqiang/docker-golang-build /bin/sh -c "CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o tapi main.go"
+web:
 	docker-compose -f docker-web-compose.yml up -d
 elk:
 	docker-compoes -f docker-elk-compose.yml up -d 
 spy:
 	docker-compoes -f docker-spy-compose.yml up -d 
-install:
+install-docker:
 	chmod +x /data/compose/scripts/*.sh;
 	sh /data/compose/scripts/install-docker-centos.sh;
+install:
 	mkdir -p /data/code; 
 	ssh -T git@git.oschina.net;
 	git clone git@git.oschina.net:tupai/wesee-music.git /data/code/music
@@ -18,6 +20,11 @@ install:
 	git clone git@git.oschina.net:tupai/webuy.git /data/code/webuy
 	git clone git@git.oschina.net:tupai/wesee-html.git /data/code/wesee-html
 	git clone git@git.oschina.net:tupai/wesee-spy.git /data/code/spy
+	ln -s /data/code/.env /data/code/wesee/.env
+	ln -s /data/code/.env /data/code/moman/.env
+	ln -s /data/code/.env /data/code/wesee-api/.env
+	ln -s /data/code/.env /data/code/wemake/.env
+	ln -s /data/code/.env /data/code/webuy/.env
 	mkdir -p /data/log;
 	git clone git@git.oschina.net:tupai/wesee-log.git /data/log
 	chmod 777 /data/log -R;
