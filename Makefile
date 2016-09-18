@@ -1,5 +1,7 @@
 build-api:
+	cd /data/code/wesee-api; git pull origin master;
 	docker run --rm -v /data/code/wesee-api:/go/src/tapi daocloud.io/billqiang/docker-golang-build /bin/sh -c "CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o tapi main.go"
+	docker restart go1 go2 go3
 web:
 	docker-compose -f docker-web-compose.yml up -d
 elk:
