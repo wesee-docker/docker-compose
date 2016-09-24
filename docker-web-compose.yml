@@ -10,7 +10,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /data/compose/mariadb:/var/lib/mysql
+      - /data/compose/configs/mariadb/conf.d:/etc/mysql/conf.d
+      - /data/compose/mariadb:/data/compose/mariadb
       - /data/log:/data/log
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
